@@ -5,16 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
+
 
 @Entity 
 @Table (name = "doctor")
@@ -35,13 +40,26 @@ public class Doctor {
 
     @OneToOne 
     @JoinColumn (name="office_id")
+    @JsonIgnore 
     private Office office;
 
-    @ManyToMany (mappedBy = "doctors")
+   @ManyToMany(cascade = CascadeType.PERSIST)
+   @JsonIgnore 
+    @JoinTable(name = "doctor_specialization", joinColumns = @JoinColumn(name = "doctor_id"), inverseJoinColumns = @JoinColumn(name = "specialization_id")
+)
     private List<Specialization> specializations = new ArrayList<>();
-
+   
     @OneToMany (mappedBy = "doctor")
+    @JsonIgnore
     private List<Appointment> appointments = new ArrayList<>();
+
+    public List<Specialization> getSpecializations() {
+    return specializations;
+}
+
+    public void setSpecializations(List<Specialization> specializations) {
+    this.specializations = specializations;
+}
 
     public String getFirstName() {
         return firstName;
@@ -67,14 +85,6 @@ public class Doctor {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public List<Specialization> getSpecializations() {
-        return specializations;
-    }
-
-    public void setSpecializations(List<Specialization> specializations) {
-        this.specializations = specializations;
-    }
-
     public List<Appointment> getAppointments() {
         return appointments;
     }
@@ -97,8 +107,6 @@ public void setOffice(Office office) {
     public void setId(UUID id) {
         this.id = id;
     }
-
-    
 
 
 }

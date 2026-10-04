@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import kigali.clinic.rw.domain.Doctor;
 import kigali.clinic.rw.domain.Office;
@@ -16,9 +20,16 @@ public interface DoctorRepository extends JpaRepository<Doctor,UUID> {
 
     Boolean existsByOffice(Office office);
     Optional<Doctor> findByFirstNameAndLastNameAndDateOfBirth(String firstName, String lastName, Date dateOfBirth);
-    Optional<Doctor> findByFirstNameAndLastName(
-            String firstName,
-            String lastName);
+    Optional<Doctor> findByFirstNameAndLastName(String firstName, String lastName);
+@Query("""
+        SELECT DISTINCT d
+        FROM Doctor d
+        JOIN d.specializations s
+        WHERE LOWER(s.name) = LOWER(:name)
+        """)
+List<Doctor> findDoctorsBySpecialization(
+        @Param("name") String name);
+
 
 
     

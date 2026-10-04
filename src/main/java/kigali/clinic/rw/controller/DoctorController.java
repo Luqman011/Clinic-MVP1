@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import kigali.clinic.rw.domain.Doctor;
@@ -29,16 +30,23 @@ public class DoctorController {
             @RequestParam(value = "officeNumber", required = false) Integer officeNumber) {
 
         if (officeNumber == null) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Office number is required");
+            return ResponseEntity.badRequest().body("Office number is required");
         }
 
-        String msg =
-                doctorService.saveDoctor(doctor, officeNumber);
+        String msg = doctorService.saveDoctor(doctor, officeNumber);
 
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
+
+    @GetMapping("/by-specialization")
+    public ResponseEntity<List<Doctor>> findDoctorsBySpecialization(
+        @RequestParam String name) {
+
+    List<Doctor> doctors =
+            doctorService.findDoctorsBySpecialization(name);
+
+    return ResponseEntity.ok(doctors);
+}
 
     @GetMapping(
         value = "/{id}",

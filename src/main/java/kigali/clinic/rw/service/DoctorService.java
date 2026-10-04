@@ -48,4 +48,9 @@ public Optional<Doctor> getDoctorById(UUID id) {
     return doctorRepository.findById(id);
 }
 
+public List<Doctor> findDoctorsBySpecialization(String name) {
+    return doctorRepository.findDoctorsBySpecialization(name);
+}
+
+
 }
