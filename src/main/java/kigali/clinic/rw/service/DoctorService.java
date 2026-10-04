@@ -52,5 +52,10 @@ public List<Doctor> findDoctorsBySpecialization(String name) {
     return doctorRepository.findDoctorsBySpecialization(name);
 }
 
+public List<Doctor> findDoctorsWithoutOffice() {
+    return doctorRepository.findDoctorsWithoutOffice();
+}
+
+
 
 }

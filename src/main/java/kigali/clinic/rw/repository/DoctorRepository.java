@@ -32,5 +32,12 @@ List<Doctor> findDoctorsBySpecialization(
 
 
 
+@Query("""
+        SELECT d
+        FROM Doctor d
+        WHERE d.office IS NULL
+        ORDER BY d.lastName ASC
+        """)
+List<Doctor> findDoctorsWithoutOffice();
     
 }

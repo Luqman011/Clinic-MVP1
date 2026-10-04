@@ -48,6 +48,14 @@ public class DoctorController {
     return ResponseEntity.ok(doctors);
 }
 
+
+@GetMapping("/without-office")
+public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
+    List<Doctor> doctors = doctorService.findDoctorsWithoutOffice();
+    return ResponseEntity.ok(doctors);
+}
+
+
     @GetMapping(
         value = "/{id}",
         produces = MediaType.APPLICATION_JSON_VALUE
