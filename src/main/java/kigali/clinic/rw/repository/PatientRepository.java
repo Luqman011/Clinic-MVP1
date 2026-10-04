@@ -13,6 +13,10 @@ import kigali.clinic.rw.domain.Patient;
 public interface PatientRepository extends JpaRepository<Patient, UUID> {
 
     boolean existsBySsNumber(String ssNumber);
-    Optional<Patient> findByFirstNameAndLastNameAndDateOfBirth(String firstName, String lastName, Date dateOfBirth);
     Optional<Patient> findBySsNumber(String ssNumber);
+    Optional<Patient> findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndDateOfBirth(
+        String firstName,
+        String lastName,
+        Date dateOfBirth
+);
 }

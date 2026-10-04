@@ -21,22 +21,28 @@ public class PatientService {
     }
 
     public String savePatient(Patient patient) {
-        if (patient == null || patient.getFirstName() == null || patient.getLastName() == null || patient.getDateOfBirth() == null) {
-            return "Invalid patient data: firstName/lastName/dateOfBirth required";
-        }
+    if (patient == null ||
+        patient.getFirstName() == null ||
+        patient.getLastName() == null ||
+        patient.getDateOfBirth() == null) {
 
-        boolean exists = patientRepository.findAll().stream()
-            .anyMatch(p -> patient.getFirstName().equals(p.getFirstName())
-                         && patient.getLastName().equals(p.getLastName())
-                         && patient.getDateOfBirth().equals(p.getDateOfBirth()));
-
-        if (!exists) {
-            patientRepository.save(patient);
-            return "Patient saved successfully.";
-        } else {
-            return "Patient already exists for the given name and date of birth.";
-        }
+        return "Invalid patient data: firstName/lastName/dateOfBirth required";
     }
+
+    Optional<Patient> existingPatient =
+        patientRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndDateOfBirth(
+            patient.getFirstName(),
+            patient.getLastName(),
+            patient.getDateOfBirth()
+        );
+
+    if (existingPatient.isPresent()) {
+        return "Patient already exists for the given name and date of birth.";
+    }
+
+    patientRepository.save(patient);
+    return "Patient saved successfully.";
+}
 
     public List<Patient> getAllPatients() {
         return patientRepository.findAll();
@@ -65,6 +71,6 @@ public class PatientService {
 
     // lookup by names for appointment controller/service
     public Optional<Patient> findByFirstAndLastName(String firstName, String lastName) {
-        return patientRepository.findByFirstNameAndLastNameAndDateOfBirth(firstName, lastName, null);
+        return patientRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndDateOfBirth(firstName, lastName, null);
     }
 }
