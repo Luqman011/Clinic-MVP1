@@ -27,21 +27,26 @@ private DoctorRepository doctorRepository;
 
     public String saveAppointment(
         Appointment appointment,
-        UUID patientId,
-        UUID doctorId) {
+        String patientSSNumber,
+        String doctorFirstName,
+        String doctorLastName) {
 
     Optional<Patient> patient =
-            patientRepository.findById(patientId);
+            patientRepository.findBySsNumber(patientSSNumber);
 
     if (patient.isEmpty()) {
-        return "Patient not found";
+        return "Patient not found with SS number: " + patientSSNumber;
     }
 
     Optional<Doctor> doctor =
-            doctorRepository.findById(doctorId);
+            doctorRepository.findByFirstNameAndLastName(
+                    doctorFirstName,
+                    doctorLastName);
 
     if (doctor.isEmpty()) {
-        return "Doctor not found";
+        return "Doctor not found: "
+                + doctorFirstName + " "
+                + doctorLastName;
     }
 
     appointment.setPatient(patient.get());
@@ -52,19 +57,4 @@ private DoctorRepository doctorRepository;
     return "Appointment saved successfully";
 }
 
-    public List<Appointment> getAllAppointments() {
-        return appointmentRepository.findAll();
-    }
-
-    public Optional<Appointment> getAppointmentById(UUID id) {
-        return appointmentRepository.findById(id);
-    }
-
-    public String deleteAppointment(UUID id) {
-        if (!appointmentRepository.existsById(id)) {
-            return "Appointment not found with id: " + id;
-        }
-        appointmentRepository.deleteById(id);
-        return "Appointment deleted successfully";
-    }
 }

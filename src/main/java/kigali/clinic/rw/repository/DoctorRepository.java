@@ -16,6 +16,9 @@ public interface DoctorRepository extends JpaRepository<Doctor,UUID> {
 
     Boolean existsByOffice(Office office);
     Optional<Doctor> findByFirstNameAndLastNameAndDateOfBirth(String firstName, String lastName, Date dateOfBirth);
+    Optional<Doctor> findByFirstNameAndLastName(
+            String firstName,
+            String lastName);
 
 
     
