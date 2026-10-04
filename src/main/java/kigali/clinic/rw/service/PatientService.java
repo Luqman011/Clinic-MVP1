@@ -44,6 +44,10 @@ public class PatientService {
     return "Patient saved successfully.";
 }
 
+    public List<Patient> findPatientsByLastName(String lastName) {
+    return patientRepository.findByLastNameIgnoreCase(lastName);
+}
+
     public List<Patient> getAllPatients() {
         return patientRepository.findAll();
     }

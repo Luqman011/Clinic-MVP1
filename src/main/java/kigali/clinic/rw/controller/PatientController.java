@@ -1,6 +1,7 @@
 package kigali.clinic.rw.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,4 +22,14 @@ public class PatientController {
         String msg = patientService.savePatient(patient);
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
     }
+
+    @GetMapping("/by-last-name")
+public ResponseEntity<List<Patient>> findPatientsByLastName(
+        @RequestParam String lastName) {
+
+    List<Patient> patients =
+            patientService.findPatientsByLastName(lastName);
+
+    return ResponseEntity.ok(patients);
+}
 }
