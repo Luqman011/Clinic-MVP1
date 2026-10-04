@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
+import java.sql.Date;
 import org.springframework.web.bind.annotation.*;
 
 import kigali.clinic.rw.domain.Appointment;
@@ -38,7 +39,7 @@ public class AppointmentController {
 
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/by-status")
 public ResponseEntity<List<Appointment>> findAppointmentsByStatus(
         @RequestParam AppointmentStatus status) {
@@ -48,4 +49,17 @@ public ResponseEntity<List<Appointment>> findAppointmentsByStatus(
 
     return ResponseEntity.ok(appointments);
 }
+    @GetMapping("/between")
+    public ResponseEntity<List<Appointment>> findAppointmentsBetween(
+            @RequestParam String start,
+            @RequestParam String end) {
+
+        Date startDate = Date.valueOf(start);
+        Date endDate = Date.valueOf(end);
+
+        List<Appointment> appointments = appointmentService.findAppointmentsBetween(startDate, endDate);
+
+        return ResponseEntity.ok(appointments);
+    }
+
 }

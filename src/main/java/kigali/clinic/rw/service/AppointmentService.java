@@ -1,5 +1,7 @@
 package kigali.clinic.rw.service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,6 +64,11 @@ public List<Appointment> findAppointmentsByStatus(
         AppointmentStatus status) {
 
     return appointmentRepository.findByStatusOrderByAppointmentDateAsc(status);
+}
+
+public List<Appointment> findAppointmentsBetween(Date start, Date end) {
+
+    return appointmentRepository.findByAppointmentDateBetween(start, end);
 }
 
 }
