@@ -20,4 +20,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     List<Appointment> findByReasonContainingIgnoreCaseOrderByAppointmentDate(String reason);
     List<Appointment> findByStatus(AppointmentStatus status);
     List<Appointment> findByAppointmentDateBetween(Date start, Date end);
+    List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
+    
+
 }

@@ -3,6 +3,8 @@ package kigali.clinic.rw.domain;
 import java.sql.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,10 +36,12 @@ public class Appointment {
 
     @ManyToOne 
     @JoinColumn (name="patient_id")
+    @JsonIgnore 
     private Patient patient;
 
     @ManyToOne 
     @JoinColumn (name="doctor_id")
+    @JsonIgnore
     private Doctor doctor;
 
     public Date getAppointmentDate() {

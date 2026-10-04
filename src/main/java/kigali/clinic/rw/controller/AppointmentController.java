@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import kigali.clinic.rw.domain.Appointment;
+import kigali.clinic.rw.domain.AppointmentStatus;
 import kigali.clinic.rw.service.AppointmentService;
 
 @RestController
@@ -36,4 +38,14 @@ public class AppointmentController {
 
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
+    
+    @GetMapping("/by-status")
+public ResponseEntity<List<Appointment>> findAppointmentsByStatus(
+        @RequestParam AppointmentStatus status) {
+
+    List<Appointment> appointments =
+            appointmentService.findAppointmentsByStatus(status);
+
+    return ResponseEntity.ok(appointments);
+}
 }

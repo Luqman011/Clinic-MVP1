@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kigali.clinic.rw.domain.Appointment;
+import kigali.clinic.rw.domain.AppointmentStatus;
 import kigali.clinic.rw.domain.Doctor;
 import kigali.clinic.rw.domain.Patient;
 import kigali.clinic.rw.repository.AppointmentRepository;
@@ -55,6 +56,12 @@ private DoctorRepository doctorRepository;
     appointmentRepository.save(appointment);
 
     return "Appointment saved successfully";
+}
+
+public List<Appointment> findAppointmentsByStatus(
+        AppointmentStatus status) {
+
+    return appointmentRepository.findByStatusOrderByAppointmentDateAsc(status);
 }
 
 }
