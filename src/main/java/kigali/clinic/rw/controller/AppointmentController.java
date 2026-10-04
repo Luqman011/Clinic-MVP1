@@ -37,6 +37,11 @@ public class AppointmentController {
                 doctorLastName
         );
 
+        if (message.equals("Doctor is already booked on that date")) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+    }
+
+
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 

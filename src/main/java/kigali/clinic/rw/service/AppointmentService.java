@@ -28,7 +28,7 @@ private PatientRepository patientRepository;
 @Autowired
 private DoctorRepository doctorRepository;
 
-    public String saveAppointment(
+public String saveAppointment(
         Appointment appointment,
         String patientSSNumber,
         String doctorFirstName,
@@ -41,15 +41,18 @@ private DoctorRepository doctorRepository;
         return "Patient not found with SS number: " + patientSSNumber;
     }
 
-    Optional<Doctor> doctor =
-            doctorRepository.findByFirstNameAndLastName(
-                    doctorFirstName,
-                    doctorLastName);
+    Optional<Doctor> doctor = doctorRepository.findByFirstNameAndLastName(doctorFirstName, doctorLastName);
 
     if (doctor.isEmpty()) {
         return "Doctor not found: "
                 + doctorFirstName + " "
                 + doctorLastName;
+    }
+
+    boolean doctorAlreadyBooked = appointmentRepository.existsByDoctorAndAppointmentDateAndStatusNot( doctor.get(), appointment.getAppointmentDate(), AppointmentStatus.CANCELLED);
+
+    if (doctorAlreadyBooked) {
+        return "Doctor is already booked on that date";
     }
 
     appointment.setPatient(patient.get());
@@ -59,6 +62,7 @@ private DoctorRepository doctorRepository;
 
     return "Appointment saved successfully";
 }
+
 
 public List<Appointment> findAppointmentsByStatus(
         AppointmentStatus status) {
