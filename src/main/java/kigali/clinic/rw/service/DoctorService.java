@@ -22,19 +22,30 @@ public class DoctorService {
 
     public String saveDoctor(Doctor doctor, int officeNumber) {
 
+    Optional<Office> getOffice = officeRepository.findByOfficeNumber(officeNumber);
 
-        Optional<Office> getOffice = officeRepository.findByOfficeNumber(officeNumber);
-        if (getOffice.isPresent()) {
-            Boolean CheckIfOfficeIsAssigned = doctorRepository.existsByOffice(getOffice.get());
-            if (!CheckIfOfficeIsAssigned) {
-                doctorRepository.save(doctor);
-                return "Doctor saved successfully";
-            } else {
-                return "Office is already assigned to another doctor";
-            }
+    if (getOffice.isPresent()) {
+
+        Boolean CheckIfOfficeIsAssigned =
+                doctorRepository.existsByOffice(getOffice.get());
+
+        if (!CheckIfOfficeIsAssigned) {
+
+            doctor.setOffice(getOffice.get());
+            doctorRepository.save(doctor);
+
+            return "Doctor saved successfully";
+
         } else {
-            return "Office not found with office number: " + officeNumber;
+            return "Office is already assigned to another doctor";
         }
-        
+
+    } else {
+        return "Office not found with office number: " + officeNumber;
     }
+}
+public Optional<Doctor> getDoctorById(UUID id) {
+    return doctorRepository.findById(id);
+}
+
 }

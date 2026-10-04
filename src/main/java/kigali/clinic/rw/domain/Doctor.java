@@ -82,6 +82,21 @@ public class Doctor {
     public void setAppointments(List<Appointment> appointments) {
         this.appointments = appointments;
     }
+    public Office getOffice() {
+    return office;
+}
+
+public void setOffice(Office office) {
+    this.office = office;
+}
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     
 
