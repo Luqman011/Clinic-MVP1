@@ -23,10 +23,15 @@ public interface OfficeRepository  extends JpaRepository<Office,UUID>{
 
     Optional<Office>  findByOfficeNumber(int officeNumber);
 
-    // @Query ("""
-    //         SELECT FROM Office O WHERE O.doctor.name : = name
-    //         """)
-    // List<Office> findByDoctorName(@Param("name") String name);
+    @Query("""
+        SELECT o.name, o.officeNumber, COUNT(a)
+        FROM Appointment a
+        JOIN a.doctor d
+        JOIN d.office o
+        GROUP BY o
+        ORDER BY COUNT(a) DESC
+        """)
+    List<Object[]> findBusiestOffice();
 
 
 }

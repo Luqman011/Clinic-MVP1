@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
 
 import kigali.clinic.rw.domain.Office;
 import kigali.clinic.rw.service.OfficeService;
@@ -87,4 +88,17 @@ public class OfficeController {
 
         return new ResponseEntity<>(returnedMessage, HttpStatus.OK);
     }
+
+    @GetMapping("/busiest")
+public ResponseEntity<?> findBusiestOffice() {
+
+    Optional<Object[]> result =
+            officeService.findBusiestOffice();
+
+    if (result.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.OK).body("No appointments yet");
+    }
+
+    return ResponseEntity.ok(result.get());
+}
 }
