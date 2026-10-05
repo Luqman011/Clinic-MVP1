@@ -465,6 +465,66 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "http://localhost:8080/api/appointment/page",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/appointment/page?page=0&size=5&sort=appointmentDate,asc",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "page"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            },
+            {
+              "key": "sort",
+              "value": "appointmentDate,asc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/appointment/cancelled-before",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/appointment/cancelled-before?date=2026-10-30",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "cancelled-before"
+          ],
+          "query": [
+            {
+              "key": "date",
+              "value": "2026-10-30"
+            }
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
