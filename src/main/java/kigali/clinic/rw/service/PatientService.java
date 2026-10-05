@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kigali.clinic.rw.domain.Patient;
 import kigali.clinic.rw.repository.PatientRepository;
+import kigali.clinic.rw.repository.DoctorRepository;
 
 @Service
 public class PatientService {
@@ -19,6 +20,8 @@ public class PatientService {
     public PatientService(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
+    @Autowired
+    private DoctorRepository doctorRepository;
 
     public String savePatient(Patient patient) {
     if (patient == null ||
@@ -42,6 +45,17 @@ public class PatientService {
 
     patientRepository.save(patient);
     return "Patient saved successfully.";
+}
+
+public Optional<List<Patient>> findPatientsOfDoctor(UUID doctorId) {
+
+    if (doctorRepository.findById(doctorId).isEmpty()) {
+        return Optional.empty();
+    }
+
+    return Optional.of(
+            patientRepository.findPatientsOfDoctor(doctorId)
+    );
 }
 
     public List<Patient> findPatientsByLastName(String lastName) {

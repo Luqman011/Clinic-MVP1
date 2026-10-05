@@ -27,7 +27,7 @@ public interface DoctorRepository extends JpaRepository<Doctor,UUID> {
         JOIN d.specializations s
         WHERE LOWER(s.name) = LOWER(:name)
         """)
-List<Doctor> findDoctorsBySpecialization(
+    List<Doctor> findDoctorsBySpecialization(
         @Param("name") String name);
 
 
@@ -38,6 +38,6 @@ List<Doctor> findDoctorsBySpecialization(
         WHERE d.office IS NULL
         ORDER BY d.lastName ASC
         """)
-List<Doctor> findDoctorsWithoutOffice();
+    List<Doctor> findDoctorsWithoutOffice();
     
 }
