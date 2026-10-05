@@ -67,4 +67,10 @@ public ResponseEntity<List<Appointment>> findAppointmentsByStatus(
         return ResponseEntity.ok(appointments);
     }
 
+    @GetMapping("/stats/by-status")
+    public ResponseEntity<List<Object[]>> countAppointmentsByStatus() {
+    List<Object[]> stats = appointmentService.countAppointmentsByStatus();
+    return ResponseEntity.ok(stats);
+}
+
 }

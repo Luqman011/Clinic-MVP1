@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +23,12 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     List<Appointment> findByAppointmentDateBetween(Date start, Date end);
     List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
     boolean existsByDoctorAndAppointmentDateAndStatusNot(Doctor doctor, Date appointmentDate, AppointmentStatus status);
+
+    @Query("""
+        SELECT a.status, COUNT(a)
+        FROM Appointment a
+        GROUP BY a.status
+        """)
+    List<Object[]> countAppointmentsByStatus();
 
 }

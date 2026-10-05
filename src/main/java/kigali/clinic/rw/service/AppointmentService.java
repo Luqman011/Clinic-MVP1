@@ -75,4 +75,8 @@ public List<Appointment> findAppointmentsBetween(Date start, Date end) {
     return appointmentRepository.findByAppointmentDateBetween(start, end);
 }
 
+public List<Object[]> countAppointmentsByStatus() {
+    return appointmentRepository.countAppointmentsByStatus();
+}
+
 }
