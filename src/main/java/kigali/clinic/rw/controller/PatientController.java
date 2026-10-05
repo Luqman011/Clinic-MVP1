@@ -46,6 +46,15 @@ public ResponseEntity<?> findPatientsOfDoctor(
     }
 
     return ResponseEntity.ok(result.get());
+    }
+
+    @GetMapping("/frequent")
+    public ResponseEntity<List<Patient>> findFrequentPatients(
+        @RequestParam long min) {
+
+    List<Patient> patients = patientService.findFrequentPatients(min);
+
+    return ResponseEntity.ok(patients);
 }
 
 }

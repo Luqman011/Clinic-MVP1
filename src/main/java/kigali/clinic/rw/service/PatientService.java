@@ -91,4 +91,9 @@ public Optional<List<Patient>> findPatientsOfDoctor(UUID doctorId) {
     public Optional<Patient> findByFirstAndLastName(String firstName, String lastName) {
         return patientRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndDateOfBirth(firstName, lastName, null);
     }
+
+    public List<Patient> findFrequentPatients(long min) {
+    return patientRepository.findFrequentPatients(min);
+    }
+
 }
