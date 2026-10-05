@@ -13,10 +13,8 @@ import kigali.clinic.rw.domain.Appointment;
 import kigali.clinic.rw.domain.AppointmentStatus;
 import kigali.clinic.rw.service.AppointmentService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/appointment")
@@ -102,6 +100,15 @@ public ResponseEntity<Page<Appointment>> findAppointmentsPage(
 
     Page<Appointment> appointments = appointmentService.findAppointmentsPage(pageable);
     return ResponseEntity.ok(appointments);
+}
+
+@DeleteMapping("/cancelled-before")
+public ResponseEntity<String> deleteCancelledBefore(
+        @RequestParam String date) {
+
+    Date appointmentDate = Date.valueOf(date);
+    int deleted = appointmentService.deleteCancelledBefore(appointmentDate);
+    return ResponseEntity.ok(deleted + " appointments deleted");
 }
 
 }

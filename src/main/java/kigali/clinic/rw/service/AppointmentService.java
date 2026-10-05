@@ -92,4 +92,9 @@ public Page<Appointment> findAppointmentsPage(Pageable pageable) {
     return appointmentRepository.findAll(pageable);
 }
 
+@Transactional
+public int deleteCancelledBefore(Date date) {
+    return appointmentRepository.deleteCancelledBefore(AppointmentStatus.CANCELLED, date);
+}
+
 }
