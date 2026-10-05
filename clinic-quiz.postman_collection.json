@@ -1,0 +1,470 @@
+{
+  "info": {
+    "_postman_id": "a5ecbe78-4081-4121-9c33-33f9c49f13a3",
+    "name": "clinic-quiz",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "7144108"
+  },
+  "item": [
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/patient/by-last-name",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/patient/by-last-name?lastName=Baptist",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "patient",
+            "by-last-name"
+          ],
+          "query": [
+            {
+              "key": "lastName",
+              "value": "Baptist"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/doctor/save",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "officeNumber",
+            "value": "2001",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"dateOfBirth\": \"1985-05-15\",\n    \"specializations\": [\n        {\n            \"name\": \"Cardiology\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/doctor/save?officeNumber=2001",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "officeNumber",
+              "value": "2001"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:8080/api/doctor/save",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Deborah\",\n    \"lastName\": \"Kamana\",\n    \"dateOfBirth\": \"1985-09-30\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/doctor/save?officeNumber=2000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "officeNumber",
+              "value": "2000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:8080/api/appointment/save",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"appointmentDate\": \"2026-10-10\",\n    \"reason\": \"General Checkup\",\n    \"status\": \"SCHEDULED\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/appointment/save?patientSSNumber=1211&doctorFirstName=Deborah&doctorLastName=Kamana",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "patientSSNumber",
+              "value": "1211"
+            },
+            {
+              "key": "doctorFirstName",
+              "value": "Deborah"
+            },
+            {
+              "key": "doctorLastName",
+              "value": "Kamana"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/appointment/by-status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/appointment/by-status?status=SCHEDULED",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "by-status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "SCHEDULED"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:8080/api/appointment/between",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/appointment/between?start=2026-10-01&end=2026-10-31",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "between"
+          ],
+          "query": [
+            {
+              "key": "start",
+              "value": "2026-10-01"
+            },
+            {
+              "key": "end",
+              "value": "2026-10-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/doctor/by-specialization",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/doctor/by-specialization?name=cardiology",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "by-specialization"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "cardiology"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/doctor/save",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Romeo\",\n    \"lastName\": \"dash\",\n    \"dateOfBirth\": \"1985-05-15\",\n    \"specializations\": [\n        {\n            \"name\": \"Cardiology\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/doctor/save?officeNumber=2002",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "officeNumber",
+              "value": "2002"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:8080/api/office/save",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Cardiology\",\n  \"officeNumber\": 2002\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/office/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "office",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/specializations/unused",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/specializations/unused",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "specializations",
+            "unused"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/patient/of-doctor/34b87d0d-1c70-4e89-a71b-b55cd1dee5b7",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/patient/of-doctor/34b87d0d-1c70-4e89-a71b-b55cd1dee5b7",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "patient",
+            "of-doctor",
+            "34b87d0d-1c70-4e89-a71b-b55cd1dee5b7"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/appointment/stats/by-status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/appointment/stats/by-status",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "stats",
+            "by-status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/patient/frequent",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/patient/frequent?min=1",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "patient",
+            "frequent"
+          ],
+          "query": [
+            {
+              "key": "min",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "localhost:8080/api/office/busiest",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/office/busiest",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "office",
+            "busiest"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "http://localhost:8080/api/appointment/cancel-day",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/appointment/cancel-day?doctorId=34b87d0d-1c70-4e89-a71b-b55cd1dee5b7&date=2026-10-20",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "cancel-day"
+          ],
+          "query": [
+            {
+              "key": "doctorId",
+              "value": "34b87d0d-1c70-4e89-a71b-b55cd1dee5b7"
+            },
+            {
+              "key": "date",
+              "value": "2026-10-20"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
