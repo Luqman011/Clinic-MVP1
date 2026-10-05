@@ -99,6 +99,6 @@ public ResponseEntity<?> findBusiestOffice() {
         return ResponseEntity.status(HttpStatus.OK).body("No appointments yet");
     }
 
-    return ResponseEntity.ok(result.get());
+        return ResponseEntity.ok(result.get());
 }
 }

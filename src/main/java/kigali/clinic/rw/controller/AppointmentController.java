@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
+import java.util.UUID;
 import java.sql.Date;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,6 +72,17 @@ public ResponseEntity<List<Appointment>> findAppointmentsByStatus(
     public ResponseEntity<List<Object[]>> countAppointmentsByStatus() {
     List<Object[]> stats = appointmentService.countAppointmentsByStatus();
     return ResponseEntity.ok(stats);
+}
+
+
+@PatchMapping("/cancel-day")
+public ResponseEntity<String> cancelAppointmentsByDoctorAndDate(
+        @RequestParam UUID doctorId,
+        @RequestParam String date) {
+        Date appointmentDate = Date.valueOf(date);
+        int cancelled = appointmentService.cancelAppointmentsByDoctorAndDate(doctorId, appointmentDate);
+    return ResponseEntity.ok(
+            cancelled + " appointments cancelled");
 }
 
 }

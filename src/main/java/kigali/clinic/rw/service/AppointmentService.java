@@ -16,6 +16,7 @@ import kigali.clinic.rw.domain.Patient;
 import kigali.clinic.rw.repository.AppointmentRepository;
 import kigali.clinic.rw.repository.DoctorRepository;
 import kigali.clinic.rw.repository.PatientRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AppointmentService {
@@ -77,6 +78,12 @@ public List<Appointment> findAppointmentsBetween(Date start, Date end) {
 
 public List<Object[]> countAppointmentsByStatus() {
     return appointmentRepository.countAppointmentsByStatus();
+}
+
+@Transactional
+public int cancelAppointmentsByDoctorAndDate(UUID doctorId, Date date) {
+
+    return appointmentRepository.cancelAppointmentsByDoctorAndDate(doctorId,date,AppointmentStatus.CANCELLED,AppointmentStatus.COMPLETED);
 }
 
 }
