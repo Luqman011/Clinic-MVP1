@@ -17,6 +17,8 @@ import kigali.clinic.rw.repository.AppointmentRepository;
 import kigali.clinic.rw.repository.DoctorRepository;
 import kigali.clinic.rw.repository.PatientRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class AppointmentService {
@@ -84,6 +86,10 @@ public List<Object[]> countAppointmentsByStatus() {
 public int cancelAppointmentsByDoctorAndDate(UUID doctorId, Date date) {
 
     return appointmentRepository.cancelAppointmentsByDoctorAndDate(doctorId,date,AppointmentStatus.CANCELLED,AppointmentStatus.COMPLETED);
+}
+
+public Page<Appointment> findAppointmentsPage(Pageable pageable) {
+    return appointmentRepository.findAll(pageable);
 }
 
 }
