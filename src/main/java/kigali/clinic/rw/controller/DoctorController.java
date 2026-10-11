@@ -74,4 +74,14 @@ public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
                 .status(HttpStatus.NOT_FOUND)
                 .body("Doctor not found with id: " + id);
     }
+
+    @PutMapping("/{doctorId}/specializations/{specializationId}")
+    public ResponseEntity<String> addSpecialization(
+        @PathVariable UUID doctorId,
+        @PathVariable UUID specializationId) {
+        String message = doctorService.addSpecialization(
+            doctorId, specializationId);
+
+    return ResponseEntity.ok(message);
+}
 }
