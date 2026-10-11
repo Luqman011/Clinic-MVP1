@@ -46,5 +46,6 @@ public interface OfficeRepository  extends JpaRepository<Office,UUID>{
         """)
     List<Office> findFreeOffices();
 
+    Optional<Office> findByOfficeNumber(Integer officeNumber);
 
 }

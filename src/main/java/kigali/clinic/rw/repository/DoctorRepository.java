@@ -39,5 +39,7 @@ public interface DoctorRepository extends JpaRepository<Doctor,UUID> {
         ORDER BY d.lastName ASC
         """)
     List<Doctor> findDoctorsWithoutOffice();
+
+    boolean existsByOfficeAndIdNot(Office office, UUID id);
     
 }

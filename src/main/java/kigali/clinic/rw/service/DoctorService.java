@@ -123,4 +123,25 @@ public String removeSpecialization(UUID doctorId, UUID specializationId) {
 }
 
 
+public String changeDoctorOffice(UUID doctorId, Integer officeNumber) {
+
+    Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "The doctor with that id does not exist"));
+
+    Office office = officeRepository.findByOfficeNumber(officeNumber).orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "The office with that office number does not exist"));
+
+    if (doctorRepository.existsByOfficeAndIdNot(office, doctorId)) {
+        throw new ResponseStatusException(
+            HttpStatus.CONFLICT,
+            "That office is taken by other doctor");
+    }
+
+    doctor.setOffice(office);
+    doctorRepository.save(doctor);
+
+    return "Office changed successfully";
+}
 }

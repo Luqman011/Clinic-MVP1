@@ -96,4 +96,15 @@ public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
     return ResponseEntity.ok(message);
 }
 
+    @PatchMapping("/{doctorId}/office")
+    public ResponseEntity<String> changeDoctorOffice(
+        @PathVariable UUID doctorId,
+        @RequestParam Integer officeNumber) {
+
+    String message = doctorService.changeDoctorOffice(
+        doctorId, officeNumber);
+
+    return ResponseEntity.ok(message);
+}
+
 }
