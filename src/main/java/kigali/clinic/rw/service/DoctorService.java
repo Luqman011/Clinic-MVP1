@@ -96,5 +96,31 @@ public String addSpecialization(UUID doctorId, UUID specializationId) {
 }
 
 
+public String removeSpecialization(UUID doctorId, UUID specializationId) {
+
+    Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "The doctor with that id does not exist"));
+
+    specializationRepository.findById(specializationId).orElseThrow(() -> new ResponseStatusException(
+        HttpStatus.NOT_FOUND,
+        "That specialization does not exist"));
+
+    boolean hasSpecialization = doctor.getSpecializations().stream().anyMatch(s -> s.getId().equals(specializationId));
+
+    if (!hasSpecialization) {
+        throw new ResponseStatusException(
+            HttpStatus.CONFLICT,
+            "The doctor does not have that specialization");
+    }
+
+    doctor.getSpecializations().removeIf(
+        s -> s.getId().equals(specializationId));
+
+    doctorRepository.save(doctor);
+
+    return "Specialization removed from the doctor";
+}
+
 
 }

@@ -84,4 +84,16 @@ public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
 
     return ResponseEntity.ok(message);
 }
+
+    @DeleteMapping("/{doctorId}/specializations/{specializationId}")
+    public ResponseEntity<String> removeSpecialization(
+        @PathVariable UUID doctorId,
+        @PathVariable UUID specializationId) {
+
+    String message = doctorService.removeSpecialization(
+        doctorId, specializationId);
+
+    return ResponseEntity.ok(message);
+}
+
 }
