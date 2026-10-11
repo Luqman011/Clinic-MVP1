@@ -58,4 +58,8 @@ public class OfficeService {
         return Optional.of(result.get(0));
     }
 
+    public List<Office> findFreeOffices() {
+    return officeRepository.findFreeOffices();
+    }
+
 }

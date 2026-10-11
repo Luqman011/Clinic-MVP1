@@ -101,4 +101,10 @@ public ResponseEntity<?> findBusiestOffice() {
 
         return ResponseEntity.ok(result.get());
 }
+
+    @GetMapping("/free")
+    public ResponseEntity<List<Office>> findFreeOffices() {
+    return ResponseEntity.ok(officeService.findFreeOffices());
+}
+
 }
