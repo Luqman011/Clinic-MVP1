@@ -20,4 +20,7 @@ public interface PrescriptionRepository
     """)
     List<Prescription> findPrescriptionHistoryByPatient(
         @Param("ssNumber") String ssNumber);
+
+
+    boolean existsByAppointment_Id(UUID appointmentId);    
 }

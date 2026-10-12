@@ -49,11 +49,36 @@ public class PrescriptionService {
 }
 
 
-    public List<Prescription> findPrescriptionHistoryByPatient(
-        String ssNumber) {
+    public List<Prescription> findPrescriptionHistoryByPatient(String ssNumber) {
 
-    return prescriptionRepository
-            .findPrescriptionHistoryByPatient(ssNumber);
+    return prescriptionRepository.findPrescriptionHistoryByPatient(ssNumber);
+}
+    public String updatePrescription(
+        UUID id,
+        Prescription updatedPrescription) {
+
+    // Find the prescription
+    Prescription prescription = prescriptionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The prescription with that id does not exist"));
+
+    // Update only the three allowed fields
+    prescription.setMedicineName(updatedPrescription.getMedicineName());
+    prescription.setDosage(updatedPrescription.getDosage());
+    prescription.setDurationDays(updatedPrescription.getDurationDays());
+
+    prescriptionRepository.save(prescription);
+
+    return "Prescription updated successfully";
+}
+
+public String deletePrescription(UUID id) {
+
+    // Find the prescription
+    Prescription prescription = prescriptionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The prescription with that id does not exist"));
+
+    // Delete it
+    prescriptionRepository.delete(prescription);
+
+    return "Prescription deleted successfully";
 }
 
 }
