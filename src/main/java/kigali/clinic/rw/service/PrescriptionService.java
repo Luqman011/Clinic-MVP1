@@ -47,4 +47,13 @@ public class PrescriptionService {
     //Return prescriptions linked to the appointment
     return prescriptionRepository.findByAppointment_Id(appointmentId);
 }
+
+
+    public List<Prescription> findPrescriptionHistoryByPatient(
+        String ssNumber) {
+
+    return prescriptionRepository
+            .findPrescriptionHistoryByPatient(ssNumber);
+}
+
 }
