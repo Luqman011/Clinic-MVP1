@@ -198,5 +198,16 @@ public String deleteAppointment(UUID appointmentId) {
     return "Appointment deleted successfully";
 }
 
+    public List<Appointment> getDoctorAgenda(UUID doctorId, Date date) {
+
+    // Check whether the doctor exists
+    if (!doctorRepository.existsById(doctorId)) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The doctor with that id does not exist");
+    }
+
+    //Return appointments excluding CANCELLED ones
+    return appointmentRepository.findByDoctor_IdAndAppointmentDateAndStatusNot(doctorId, date, AppointmentStatus.CANCELLED);
+}
+
 
 }

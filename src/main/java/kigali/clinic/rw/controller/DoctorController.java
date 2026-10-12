@@ -2,7 +2,7 @@ package kigali.clinic.rw.controller;
 
 import java.util.Optional;
 import java.util.UUID;
-
+import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,7 +10,9 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
+import kigali.clinic.rw.domain.Appointment;
 import kigali.clinic.rw.domain.Doctor;
+import kigali.clinic.rw.service.AppointmentService;
 import kigali.clinic.rw.service.DoctorService;
 
 @RestController
@@ -19,6 +21,8 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
+    @Autowired
+private AppointmentService appointmentService;
 
     @PostMapping(
         value = "/save",
@@ -105,6 +109,16 @@ public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
         doctorId, officeNumber);
 
     return ResponseEntity.ok(message);
+}
+
+    @GetMapping("/{doctorId}/agenda")
+    public ResponseEntity<List<Appointment>> getDoctorAgenda(
+        @PathVariable UUID doctorId,
+        @RequestParam Date date) {
+
+    List<Appointment> appointments = appointmentService.getDoctorAgenda(doctorId, date);
+
+    return ResponseEntity.ok(appointments);
 }
 
 }

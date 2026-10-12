@@ -58,4 +58,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
         @Param("status") AppointmentStatus status,
         @Param("date") Date date);
 
+
+        List<Appointment> findByDoctor_IdAndAppointmentDateAndStatusNot(UUID doctorId, Date appointmentDate, AppointmentStatus status);
+
 }
