@@ -228,5 +228,8 @@ public String deleteAppointment(UUID appointmentId) {
     return appointmentRepository.findByPatient_SsNumberAndAppointmentDateGreaterThanEqualAndStatusInOrderByAppointmentDateAsc(ssNumber, today, statuses);
 }
 
+    public List<Object[]> getDoctorWorkload(Date start, Date end) {
+    return appointmentRepository.findDoctorWorkload(start, end, AppointmentStatus.COMPLETED);
+}
 
 }

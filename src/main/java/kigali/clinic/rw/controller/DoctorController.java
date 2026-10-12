@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
-
 import kigali.clinic.rw.domain.Appointment;
 import kigali.clinic.rw.domain.Doctor;
 import kigali.clinic.rw.service.AppointmentService;
@@ -105,8 +104,7 @@ public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
         @PathVariable UUID doctorId,
         @RequestParam Integer officeNumber) {
 
-    String message = doctorService.changeDoctorOffice(
-        doctorId, officeNumber);
+    String message = doctorService.changeDoctorOffice(doctorId, officeNumber);
 
     return ResponseEntity.ok(message);
 }
@@ -127,6 +125,17 @@ public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
 
     List<Doctor> doctors = doctorService.searchDoctorsByName(name);
     return ResponseEntity.ok(doctors);
+}
+
+    @GetMapping("/workload")
+    public ResponseEntity<List<Object[]>> getDoctorWorkload(
+        @RequestParam java.sql.Date start,
+        @RequestParam java.sql.Date end) {
+
+        List<Object[]> workload =
+            appointmentService.getDoctorWorkload(start, end);
+
+    return ResponseEntity.ok(workload);
 }
 
 }

@@ -1,7 +1,7 @@
 {
   "info": {
-    "_postman_id": "a5ecbe78-4081-4121-9c33-33f9c49f13a3",
-    "name": "clinic-quiz",
+    "_postman_id": "da73858d-7b5c-4c43-806c-f9423033f446",
+    "name": "clinic-quiz Copy",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "7144108"
   },
@@ -133,7 +133,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"appointmentDate\": \"2026-10-10\",\n    \"reason\": \"General Checkup\",\n    \"status\": \"SCHEDULED\"\n}",
+          "raw": "{\n    \"appointmentDate\": \"2025-10-10\",\n    \"reason\": \"General Checkup\",\n    \"status\": \"SCHEDULED\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -141,7 +141,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:8080/api/appointment/save?patientSSNumber=1211&doctorFirstName=Deborah&doctorLastName=Kamana",
+          "raw": "http://localhost:8080/api/appointment/save?patientSSNumber=1222&doctorFirstName=Deborah&doctorLastName=Kamana",
           "protocol": "http",
           "host": [
             "localhost"
@@ -155,7 +155,7 @@
           "query": [
             {
               "key": "patientSSNumber",
-              "value": "1211"
+              "value": "1222"
             },
             {
               "key": "doctorFirstName",
@@ -520,6 +520,408 @@
             {
               "key": "date",
               "value": "2026-10-30"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "list free offices",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add specialization to doctor",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remove specialization from doctor",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/doctor/34b87d0d-1c70-4e89-a71b-b55cd1dee5b7/specializations/3b0f103a-5a3c-4ca5-b21a-752d8109eede",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "34b87d0d-1c70-4e89-a71b-b55cd1dee5b7",
+            "specializations",
+            "3b0f103a-5a3c-4ca5-b21a-752d8109eede"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "move doctor to another office",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/doctor/34b87d0d-1c70-4e89-a71b-b55cd1dee5b7/office?officeNumber=2000",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "34b87d0d-1c70-4e89-a71b-b55cd1dee5b7",
+            "office"
+          ],
+          "query": [
+            {
+              "key": "officeNumber",
+              "value": "2000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update appointment status",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/appointment/2305a54b-665d-4238-a9fe-09f8b0b3d984/status?status=SCHEDULED",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "2305a54b-665d-4238-a9fe-09f8b0b3d984",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "SCHEDULED"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reschedule appointment",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/appointment/aca3ab15-fcd6-41d0-974a-1a75adbbad6d/reschedule?newDate=2026-10-30",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "aca3ab15-fcd6-41d0-974a-1a75adbbad6d",
+            "reschedule"
+          ],
+          "query": [
+            {
+              "key": "newDate",
+              "value": "2026-10-30"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "write prescription",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"medicineName\": \"Amoxicillin\",\n    \"dosage\": \"1 tablet, 3 times a day\",\n    \"durationDays\": 7\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:8080/api/prescriptions/save?appointmentId=2305a54b-665d-4238-a9fe-09f8b0b3d984",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "prescriptions",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "appointmentId",
+              "value": "2305a54b-665d-4238-a9fe-09f8b0b3d984"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get prescription by appointment",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/prescriptions/appointment/2305a54b-665d-4238-a9fe-09f8b0b3d984",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "prescriptions",
+            "appointment",
+            "2305a54b-665d-4238-a9fe-09f8b0b3d984"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "prescription history of a patient",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/prescriptions/patient/1211",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "prescriptions",
+            "patient",
+            "1211"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete appointment",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/appointment/delete/2305a54b-665d-4238-a9fe-09f8b0b3d984",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "appointment",
+            "delete",
+            "2305a54b-665d-4238-a9fe-09f8b0b3d984"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete prescription",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/prescriptions/delete/fd1542db-8303-402c-993e-b8f2c6dac38f",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "prescriptions",
+            "delete",
+            "fd1542db-8303-402c-993e-b8f2c6dac38f"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update prescription",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get doctor agenda",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/doctor/34b87d0d-1c70-4e89-a71b-b55cd1dee5b7/agenda?date=2026-10-20",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "34b87d0d-1c70-4e89-a71b-b55cd1dee5b7",
+            "agenda"
+          ],
+          "query": [
+            {
+              "key": "date",
+              "value": "2026-10-20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get upcoming appointments of patients",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/patient/1211/upcoming",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "patient",
+            "1211",
+            "upcoming"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "search doctor by name",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/doctor/search?name=Deborah",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "Deborah"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "dashboard summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/dashboard/summary",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "dashboard",
+            "summary"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Most prescribed medecine",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/prescriptions/stats/top-medicines",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "prescriptions",
+            "stats",
+            "top-medicines"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "doctor workload",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8080/api/doctor/workload?start=2026-10-01&end=2026-10-31",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "doctor",
+            "workload"
+          ],
+          "query": [
+            {
+              "key": "start",
+              "value": "2026-10-01"
+            },
+            {
+              "key": "end",
+              "value": "2026-10-31"
             }
           ]
         }
