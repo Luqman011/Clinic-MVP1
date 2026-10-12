@@ -16,6 +16,8 @@ import kigali.clinic.rw.domain.Patient;
 import kigali.clinic.rw.repository.AppointmentRepository;
 import kigali.clinic.rw.repository.DoctorRepository;
 import kigali.clinic.rw.repository.PatientRepository;
+import kigali.clinic.rw.repository.PrescriptionRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
@@ -28,10 +30,13 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository appointmentRepository;
     @Autowired
-private PatientRepository patientRepository;
+    private PatientRepository patientRepository;
 
-@Autowired
-private DoctorRepository doctorRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired 
+    private PrescriptionRepository prescriptionRepository;
 
 public String saveAppointment(Appointment appointment, String patientSSNumber, String doctorFirstName, String doctorLastName) {
 
@@ -175,6 +180,22 @@ public Page<Appointment> findAppointmentsPage(Pageable pageable) {
 @Transactional
 public int deleteCancelledBefore(Date date) {
     return appointmentRepository.deleteCancelledBefore(AppointmentStatus.CANCELLED, date);
+}
+
+public String deleteAppointment(UUID appointmentId) {
+
+    //Check whether the appointment exists
+    Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The appointment with that id does not exist"));
+
+    //Prevent deletion if the appointment has prescriptions
+    if (prescriptionRepository.existsByAppointment_Id(appointmentId)) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "That appointment has prescriptions, delete them first");
+    }
+
+    //Delete the appointment
+    appointmentRepository.delete(appointment);
+
+    return "Appointment deleted successfully";
 }
 
 

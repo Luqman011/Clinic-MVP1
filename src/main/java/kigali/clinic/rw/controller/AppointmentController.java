@@ -132,4 +132,14 @@ public ResponseEntity<String> deleteCancelledBefore(
     return ResponseEntity.ok(deleted + " appointments deleted");
 }
 
+
+    @DeleteMapping("/delete/{appointmentId}")
+    public ResponseEntity<String> deleteAppointment(
+        @PathVariable UUID appointmentId) {
+
+    String response = appointmentService.deleteAppointment(appointmentId);
+
+    return ResponseEntity.ok(response);
+}
+
 }
