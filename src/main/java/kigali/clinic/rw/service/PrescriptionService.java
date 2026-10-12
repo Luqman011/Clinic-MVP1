@@ -10,6 +10,7 @@ import kigali.clinic.rw.domain.AppointmentStatus;
 import kigali.clinic.rw.domain.Prescription;
 import kigali.clinic.rw.repository.AppointmentRepository;
 import kigali.clinic.rw.repository.PrescriptionRepository;
+import java.util.List;
 
 @Service
 public class PrescriptionService {
@@ -35,4 +36,15 @@ public class PrescriptionService {
         //Save the prescription
         return prescriptionRepository.save(prescription);
     }
+
+    public List<Prescription> findPrescriptionsByAppointment(UUID appointmentId) {
+
+    //Check that the appointment exists
+    if (!appointmentRepository.existsById(appointmentId)) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,"The appointment with that id does not exist");
+    }
+
+    //Return prescriptions linked to the appointment
+    return prescriptionRepository.findByAppointment_Id(appointmentId);
+}
 }
