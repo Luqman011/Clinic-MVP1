@@ -1,6 +1,7 @@
 package kigali.clinic.rw.service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,8 +17,10 @@ import kigali.clinic.rw.repository.AppointmentRepository;
 import kigali.clinic.rw.repository.DoctorRepository;
 import kigali.clinic.rw.repository.PatientRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 
 @Service
 public class AppointmentService {
@@ -30,36 +33,43 @@ private PatientRepository patientRepository;
 @Autowired
 private DoctorRepository doctorRepository;
 
-public String saveAppointment(
-        Appointment appointment,
-        String patientSSNumber,
-        String doctorFirstName,
-        String doctorLastName) {
+public String saveAppointment(Appointment appointment, String patientSSNumber, String doctorFirstName, String doctorLastName) {
 
-    Optional<Patient> patient =
-            patientRepository.findBySsNumber(patientSSNumber);
+    // 1. Reject appointment dates in the past
+    if (appointment.getAppointmentDate().toLocalDate().isBefore(LocalDate.now())) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Appointment date cannot be in the past");
+    }
+
+    // 2. Find the patient
+    Optional<Patient> patient = patientRepository.findBySsNumber(patientSSNumber);
 
     if (patient.isEmpty()) {
         return "Patient not found with SS number: " + patientSSNumber;
     }
 
-    Optional<Doctor> doctor = doctorRepository.findByFirstNameAndLastName(doctorFirstName, doctorLastName);
+    // 3. Find the doctor
+    Optional<Doctor> doctor = doctorRepository.findByFirstNameAndLastName(
+                    doctorFirstName, doctorLastName);
 
     if (doctor.isEmpty()) {
-        return "Doctor not found: "
-                + doctorFirstName + " "
-                + doctorLastName;
+        return "Doctor not found: " + doctorFirstName + " " + doctorLastName;
     }
 
-    boolean doctorAlreadyBooked = appointmentRepository.existsByDoctorAndAppointmentDateAndStatusNot( doctor.get(), appointment.getAppointmentDate(), AppointmentStatus.CANCELLED);
+    // 4. Check whether the doctor is already booked
+    boolean doctorAlreadyBooked = appointmentRepository.existsByDoctorAndAppointmentDateAndStatusNot(doctor.get(),appointment.getAppointmentDate(),AppointmentStatus.CANCELLED);
 
     if (doctorAlreadyBooked) {
         return "Doctor is already booked on that date";
     }
 
+    // 5. Assign the patient and doctor
     appointment.setPatient(patient.get());
     appointment.setDoctor(doctor.get());
 
+    // 6. Every new appointment must start as SCHEDULED
+    appointment.setStatus(AppointmentStatus.SCHEDULED);
+
+    // 7. Save the appointment
     appointmentRepository.save(appointment);
 
     return "Appointment saved successfully";
@@ -95,5 +105,6 @@ public Page<Appointment> findAppointmentsPage(Pageable pageable) {
 public int deleteCancelledBefore(Date date) {
     return appointmentRepository.deleteCancelledBefore(AppointmentStatus.CANCELLED, date);
 }
+
 
 }
