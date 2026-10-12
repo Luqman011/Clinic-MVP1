@@ -121,4 +121,12 @@ public ResponseEntity<List<Doctor>> findDoctorsWithoutOffice() {
     return ResponseEntity.ok(appointments);
 }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Doctor>> searchDoctors(
+        @RequestParam String name) {
+
+    List<Doctor> doctors = doctorService.searchDoctorsByName(name);
+    return ResponseEntity.ok(doctors);
+}
+
 }

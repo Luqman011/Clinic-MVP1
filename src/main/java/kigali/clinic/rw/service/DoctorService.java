@@ -144,4 +144,8 @@ public String changeDoctorOffice(UUID doctorId, Integer officeNumber) {
 
     return "Office changed successfully";
 }
+
+    public List<Doctor> searchDoctorsByName(String name) {
+    return doctorRepository.searchDoctorsByName(name);
+}
 }
