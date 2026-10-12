@@ -77,6 +77,16 @@ public ResponseEntity<List<Appointment>> findAppointmentsByStatus(
     return ResponseEntity.ok(stats);
 }
 
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> updateAppointmentStatus(
+        @PathVariable UUID id,
+        @RequestParam AppointmentStatus status) {
+
+    String response = appointmentService.updateAppointmentStatus(id, status);
+
+    return ResponseEntity.ok(response);
+}
+
 
 @PatchMapping("/cancel-day")
 public ResponseEntity<String> cancelAppointmentsByDoctorAndDate(

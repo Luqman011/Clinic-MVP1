@@ -75,6 +75,37 @@ public String saveAppointment(Appointment appointment, String patientSSNumber, S
     return "Appointment saved successfully";
 }
 
+public String updateAppointmentStatus(
+        UUID appointmentId,
+        AppointmentStatus newStatus) {
+
+    //Find the appointment
+    Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "The appointment with that id does not exist"));
+
+    AppointmentStatus currentStatus = appointment.getStatus();
+
+    //Check whether the requested transition is allowed
+    boolean allowed = false;
+
+    if (currentStatus == AppointmentStatus.SCHEDULED) {
+        allowed = newStatus == AppointmentStatus.CONFIRMED || newStatus == AppointmentStatus.CANCELLED;
+    } else if (currentStatus == AppointmentStatus.CONFIRMED) {
+        allowed = newStatus == AppointmentStatus.COMPLETED || newStatus == AppointmentStatus.CANCELLED;
+    }
+
+    //Reject invalid transitions
+    if (!allowed) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot change status from " + currentStatus + " to " + newStatus);
+    }
+
+    //Update and save the status
+    appointment.setStatus(newStatus);
+    appointmentRepository.save(appointment);
+
+    return "Appointment status updated successfully";
+}
+
 
 public List<Appointment> findAppointmentsByStatus(
         AppointmentStatus status) {
