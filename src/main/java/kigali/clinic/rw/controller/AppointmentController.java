@@ -87,6 +87,17 @@ public ResponseEntity<List<Appointment>> findAppointmentsByStatus(
     return ResponseEntity.ok(response);
 }
 
+    @PatchMapping("/{id}/reschedule")
+    public ResponseEntity<String> rescheduleAppointment(
+        @PathVariable UUID id,
+        @RequestParam Date newDate) {
+
+    String response =
+            appointmentService.rescheduleAppointment(id, newDate);
+
+    return ResponseEntity.ok(response);
+}
+
 
 @PatchMapping("/cancel-day")
 public ResponseEntity<String> cancelAppointmentsByDoctorAndDate(

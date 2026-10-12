@@ -106,6 +106,46 @@ public String updateAppointmentStatus(
     return "Appointment status updated successfully";
 }
 
+public String rescheduleAppointment(
+        UUID appointmentId,
+        Date newDate) {
+
+    //Find the appointment
+    Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The appointment with that id does not exist"));
+
+    //Prevent rescheduling completed appointments
+    if (appointment.getStatus() == AppointmentStatus.COMPLETED) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A COMPLETED appointment cannot be rescheduled");
+    }
+
+    //Prevent rescheduling cancelled appointments
+    if (appointment.getStatus() == AppointmentStatus.CANCELLED) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A CANCELLED appointment cannot be rescheduled");
+    }
+
+    //Reject dates in the past
+    if (newDate.toLocalDate().isBefore(LocalDate.now())) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Appointment date cannot be in the past");
+    }
+
+    //Check whether the doctor is already booked
+    boolean doctorAlreadyBooked = appointmentRepository.existsByDoctorAndAppointmentDateAndStatusNot(appointment.getDoctor(), newDate, AppointmentStatus.CANCELLED);
+
+    // Ignore the appointment being rescheduled itself
+    if (doctorAlreadyBooked && !newDate.equals(appointment.getAppointmentDate())) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Doctor is already booked on that date");
+    }
+
+    //Update the date and reset the status
+    appointment.setAppointmentDate(newDate);
+    appointment.setStatus(AppointmentStatus.SCHEDULED);
+
+    //Save the changes
+    appointmentRepository.save(appointment);
+
+    return "Appointment rescheduled successfully";
+}
+
 
 public List<Appointment> findAppointmentsByStatus(
         AppointmentStatus status) {
