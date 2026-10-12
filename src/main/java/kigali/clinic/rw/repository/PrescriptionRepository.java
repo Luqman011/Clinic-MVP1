@@ -26,4 +26,12 @@ public interface PrescriptionRepository
     
     
     long count();
+
+    @Query("""
+    SELECT p.medicineName, COUNT(p)
+    FROM Prescription p
+    GROUP BY p.medicineName
+    ORDER BY COUNT(p) DESC
+    """)
+    List<Object[]> findTopPrescribedMedicines();
 }

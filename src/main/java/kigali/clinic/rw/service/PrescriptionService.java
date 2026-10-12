@@ -81,4 +81,8 @@ public String deletePrescription(UUID id) {
     return "Prescription deleted successfully";
 }
 
+    public List<Object[]> getTopPrescribedMedicines() {
+    return prescriptionRepository.findTopPrescribedMedicines();
+}
+
 }
