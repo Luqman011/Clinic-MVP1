@@ -22,5 +22,8 @@ public interface PrescriptionRepository
         @Param("ssNumber") String ssNumber);
 
 
-    boolean existsByAppointment_Id(UUID appointmentId);    
+    boolean existsByAppointment_Id(UUID appointmentId);  
+    
+    
+    long count();
 }

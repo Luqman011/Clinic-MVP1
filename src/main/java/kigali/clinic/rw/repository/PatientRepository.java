@@ -41,4 +41,6 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
         """)
     List<Patient> findFrequentPatients(@Param("min") long min);
 
+    long count();
+
 }

@@ -51,5 +51,7 @@ public interface DoctorRepository extends JpaRepository<Doctor,UUID> {
     ORDER BY d.lastName ASC
     """)
     List<Doctor> searchDoctorsByName(@Param("name") String name);
+
+    long count();
     
 }
