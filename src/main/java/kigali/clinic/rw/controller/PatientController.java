@@ -9,7 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.*;
-
+import kigali.clinic.rw.service.AppointmentService;
+import kigali.clinic.rw.domain.Appointment;
 import kigali.clinic.rw.domain.Patient;
 import kigali.clinic.rw.service.PatientService;
 
@@ -19,6 +20,9 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired 
+    private AppointmentService appointmentService;
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> savePatient(@RequestBody Patient patient) {
@@ -30,13 +34,12 @@ public class PatientController {
     public ResponseEntity<List<Patient>> findPatientsByLastName(
         @RequestParam String lastName) {
 
-    List<Patient> patients =
-            patientService.findPatientsByLastName(lastName);
+    List<Patient> patients = patientService.findPatientsByLastName(lastName);
 
     return ResponseEntity.ok(patients);
 }
-@GetMapping("/of-doctor/{doctorId}")
-public ResponseEntity<?> findPatientsOfDoctor(
+    @GetMapping("/of-doctor/{doctorId}")
+    public ResponseEntity<?> findPatientsOfDoctor(
         @PathVariable UUID doctorId) {
 
     Optional<List<Patient>> result =patientService.findPatientsOfDoctor(doctorId);
@@ -55,6 +58,15 @@ public ResponseEntity<?> findPatientsOfDoctor(
     List<Patient> patients = patientService.findFrequentPatients(min);
 
     return ResponseEntity.ok(patients);
+}
+
+    @GetMapping("/{ssNumber}/upcoming")
+    public ResponseEntity<List<Appointment>> getUpcomingAppointments(
+        @PathVariable String ssNumber) {
+
+    List<Appointment> appointments = appointmentService.getUpcomingAppointments(ssNumber);
+
+    return ResponseEntity.ok(appointments);
 }
 
 }

@@ -209,5 +209,24 @@ public String deleteAppointment(UUID appointmentId) {
     return appointmentRepository.findByDoctor_IdAndAppointmentDateAndStatusNot(doctorId, date, AppointmentStatus.CANCELLED);
 }
 
+    public List<Appointment> getUpcomingAppointments(String ssNumber) {
+
+    //Check whether the patient exists
+    Optional<Patient> patient = patientRepository.findBySsNumber(ssNumber);
+
+    if (patient.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "That patient with that ssnumber does not exist");
+    }
+
+    //Get today's date
+    Date today = Date.valueOf(LocalDate.now());
+
+    //Include only SCHEDULED and CONFIRMED appointments
+    List<AppointmentStatus> statuses = List.of(AppointmentStatus.SCHEDULED, AppointmentStatus.CONFIRMED);
+
+    //Return upcoming appointments, soonest first
+    return appointmentRepository.findByPatient_SsNumberAndAppointmentDateGreaterThanEqualAndStatusInOrderByAppointmentDateAsc(ssNumber, today, statuses);
+}
+
 
 }
